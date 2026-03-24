@@ -4,6 +4,8 @@ Personal portfolio for **Vybhav Nath C A** — Senior Data Scientist specializin
 
 Built with [Astro](https://astro.build), pure CSS (glassmorphism dark theme), TypeScript, and vanilla JavaScript. Deployed to GitHub Pages.
 
+**Live site:** https://vybhav2000.github.io/portfolio-website/
+
 ## Stack
 
 - **Framework:** Astro 5 (static output)
