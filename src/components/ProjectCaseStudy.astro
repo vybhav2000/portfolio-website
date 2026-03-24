@@ -38,7 +38,7 @@ const embed = project.embed;
         <section class="glass case-card">
           <p class="card-label">{card.label}</p>
           <h3>{card.title}</h3>
-          <p>{card.text}</p>
+          <p set:html={card.text} />
         </section>
       ))
     }
@@ -79,7 +79,7 @@ const embed = project.embed;
             </>
           ) : (
             <ul class="feature-list">
-              {(section.items ?? []).map((item) => <li>{item}</li>)}
+              {(section.items ?? []).map((item) => <li set:html={item} />)}
             </ul>
           )}
         </section>

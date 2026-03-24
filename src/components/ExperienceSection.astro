@@ -28,7 +28,9 @@ const { section, experience, credentials } = Astro.props;
     <div class="experience-rail">
       <p class="card-label">Current Role</p>
       <h3>{experience.role}</h3>
-      <p class="timeline-company">{experience.company}</p>
+      <p class="timeline-company">
+        <a href="https://www.hilabs.com/" target="_blank" rel="noreferrer" class="company-link">{experience.company}</a>
+      </p>
       <p class="timeline-date">{experience.period}</p>
       <div class="experience-tags">
         {experience.tags.map((tag) => <span>{tag}</span>)}

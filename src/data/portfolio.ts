@@ -133,7 +133,7 @@ export const homeContent = {
     outcomes: [
       {
         label: "Scope",
-        text: "Architected 4 production systems serving 1,000+ daily requests.",
+        text: "Architected <strong>4</strong> production systems serving <strong>1,000+</strong> daily requests.",
       },
       {
         label: "Leadership",
@@ -265,9 +265,9 @@ export const workProjects = [
       description:
         "Built a multi-agent email system using LangGraph, Qwen, and retrieval over prior cases for credentialing and roster automation.",
       bullets: [
-        "75% processing time reduction across 1,500+ cases.",
-        "92% task completion with less than 5% escalation.",
-        "Schema-constrained extraction reached 96% field accuracy.",
+        "<strong>75%</strong> processing time reduction across <strong>1,500+</strong> cases.",
+        "<strong>92%</strong> task completion with less than <strong>5%</strong> escalation.",
+        "Schema-constrained extraction reached <strong>96%</strong> field accuracy.",
       ],
     },
     overviewCards: [
@@ -287,7 +287,7 @@ export const workProjects = [
         label: "Impact",
         title: "Measured workflow improvement",
         text:
-          "Reduced processing time by 75% across 1,500+ cases, with a 92% task completion rate and less than 5% escalation.",
+          "Reduced processing time by <strong>75%</strong> across <strong>1,500+</strong> cases, with a <strong>92%</strong> task completion rate and less than <strong>5%</strong> escalation.",
       },
     ],
     detailSections: [
@@ -306,7 +306,7 @@ export const workProjects = [
         title: "Extraction workflow",
         items: [
           "Schema-constrained generation with Qwen 3 8B JSON mode and Pydantic validators.",
-          "96% field extraction accuracy.",
+          "<strong>96%</strong> field extraction accuracy.",
           "Retry and recovery logic for failed outputs.",
           "Queue-based execution for workflow processing.",
         ],
@@ -359,7 +359,7 @@ export const workProjects = [
         label: "Impact",
         title: "Extraction and query performance",
         text:
-          "Achieved 94% extraction accuracy, improved downstream extraction quality by 12%, and supported sub-second latency for contract analytics queries.",
+          "Achieved <strong>94%</strong> extraction accuracy, improved downstream extraction quality by <strong>12%</strong>, and supported sub-second latency for contract analytics queries.",
       },
     ],
     detailSections: [
@@ -377,7 +377,7 @@ export const workProjects = [
         label: "Retrieval Design",
         title: "Retrieval and graph layer",
         items: [
-          "Neo4j knowledge graph storing entities, relationships, and hierarchies across 100k+ contracts.",
+          "Neo4j knowledge graph storing entities, relationships, and hierarchies across <strong>100k+</strong> contracts.",
           "Cypher queries for relationship-based reasoning.",
           "Dense vector search and BM25 sparse retrieval with reciprocal rank fusion.",
           "Document, page, and clause level provenance tracking.",
@@ -425,13 +425,13 @@ export const workProjects = [
         label: "What I built",
         title: "Clinical NLP pipeline",
         text:
-          "Combined BERT-CRF entity extraction, BERT QA, Clinical T5 normalization, and semantic search over 900k codes with reranking for final recommendation quality.",
+          "Combined BERT-CRF entity extraction, BERT QA, Clinical T5 normalization, and semantic search over <strong>900k</strong> codes with reranking for final recommendation quality.",
       },
       {
         label: "Impact",
         title: "Large throughput with measurable gains",
         text:
-          "Reduced manual coding time by 60%, achieved 0.91 F1 for clinical entity extraction, and handled 2,000+ requests per day in production.",
+          "Reduced manual coding time by <strong>60%</strong>, achieved <strong>0.91</strong> F1 for clinical entity extraction, and handled <strong>2,000+</strong> requests per day in production.",
       },
     ],
     detailSections: [
@@ -442,15 +442,15 @@ export const workProjects = [
           "BERT-CRF for entity extraction across conditions, procedures, labs, and medications.",
           "Multi-label enrichment for assertion, temporality, and subject.",
           "BERT QA for extracting lab values, dosages, and dates.",
-          "Clinical T5 fine-tuned on 800k entity-code pairs for terminology normalization.",
+          "Clinical T5 fine-tuned on <strong>800k</strong> entity-code pairs for terminology normalization.",
         ],
       },
       {
         label: "Retrieval and Deployment",
         title: "Retrieval and deployment",
         items: [
-          "Bi-encoder plus ScaNN semantic search across 900k codes with 18 ms latency and 95% recall@20.",
-          "Cross-encoder reranking improved precision by 13 percentage points.",
+          "Bi-encoder plus ScaNN semantic search across <strong>900k</strong> codes with <strong>18 ms</strong> latency and <strong>95%</strong> recall@<strong>20</strong>.",
+          "Cross-encoder reranking improved precision by <strong>13</strong> percentage points.",
           "PySpark pipelines handled data extraction and offline processing.",
           "Deployment on AWS EKS with continuous monitoring for latency and quality.",
         ],
@@ -497,13 +497,13 @@ export const workProjects = [
         label: "What I built",
         title: "Large-scale recommendation pipeline",
         text:
-          "Engineered 80+ features from web evidence, claims patterns, CMS data, and quality indicators, then trained ensemble models optimized for class imbalance with calibration and fairness analysis.",
+          "Engineered <strong>80+</strong> features from web evidence, claims patterns, CMS data, and quality indicators, then trained ensemble models optimized for class imbalance with calibration and fairness analysis.",
       },
       {
         label: "Impact",
         title: "Business outcome",
         text:
-          "Improved operational efficiency by 40% across 2M+ providers and increased accuracy from below 60% to above 90% on call-validated ground truth.",
+          "Improved operational efficiency by <strong>40%</strong> across <strong>2M+</strong> providers and increased accuracy from below <strong>60%</strong> to above <strong>90%</strong> on call-validated ground truth.",
       },
     ],
     detailSections: [
@@ -511,8 +511,8 @@ export const workProjects = [
         label: "Data and Features",
         title: "Ranking inputs",
         items: [
-          "80+ engineered features from web evidence, CMS data, claims patterns, and quality indicators.",
-          "PySpark feature computation over 50B+ claims-related records.",
+          "<strong>80+</strong> engineered features from web evidence, CMS data, claims patterns, and quality indicators.",
+          "PySpark feature computation over <strong>50B+</strong> claims-related records.",
           "Stacking ensemble optimized for PR-AUC and F1 under class imbalance.",
           "Specialty-specific calibration to support more equitable predictions across demographics.",
         ],
