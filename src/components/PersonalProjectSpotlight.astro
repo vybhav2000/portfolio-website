@@ -37,7 +37,7 @@ const embed = project.embed;
 
       {project.preview.bullets && (
         <ul class="feature-list">
-          {project.preview.bullets.map((bullet) => <li>{bullet}</li>)}
+          {project.preview.bullets.map((bullet) => <li set:html={bullet} />)}
         </ul>
       )}
 

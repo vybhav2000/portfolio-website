@@ -19,24 +19,33 @@ const { section, projects, projectsHref } = Astro.props;
 
   <div class="project-grid">
     {
-      projects.map((project) => (
-        <article class={`project-card glass ${project.preview.featured ? "featured-project" : ""}`}>
-          <p class="project-tag">{project.tabTag}</p>
-          <h3>{project.title}</h3>
-          <p>{project.preview.description}</p>
+      projects.map((project) => {
+        const stack = project.detailSections.find((s) => s.kind === "stack")?.stack;
+        return (
+          <article class={`project-card glass ${project.preview.featured ? "featured-project" : ""}`}>
+            <p class="project-tag">{project.tabTag}</p>
+            <h3>{project.title}</h3>
+            <p>{project.preview.description}</p>
 
-          {project.preview.bullets && (
-            <ul class="feature-list">
-              {project.preview.bullets.map((bullet) => <li>{bullet}</li>)}
-            </ul>
-          )}
+            {project.preview.bullets && (
+              <ul class="feature-list">
+                {project.preview.bullets.map((bullet) => <li set:html={bullet} />)}
+              </ul>
+            )}
 
-          <div class="project-card-footer">
-            <span>{project.timeline}</span>
-            <span>{project.domain}</span>
-          </div>
-        </article>
-      ))
+            {stack && stack.length > 0 && (
+              <div class="project-card-stack">
+                {stack.slice(0, 4).map((tech) => <span>{tech}</span>)}
+              </div>
+            )}
+
+            <div class="project-card-footer">
+              <span>{project.timeline}</span>
+              <span>{project.domain}</span>
+            </div>
+          </article>
+        );
+      })
     }
   </div>
 
