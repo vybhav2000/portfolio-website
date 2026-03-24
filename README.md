@@ -20,6 +20,19 @@ docker compose up --build
 
 Endpoint: `http://127.0.0.1:8000`
 
+## GitHub Pages
+
+This repo includes a GitHub Pages workflow at `.github/workflows/deploy-pages.yml`.
+
+Deployment runs automatically on pushes to `master`.
+
+To enable it in GitHub:
+
+1. Open the repository settings.
+2. Go to `Pages`.
+3. Set `Source` to `GitHub Actions`.
+4. Push to `master`.
+
 ## Pre-commit hook
 
 Install the dev tools and register the hook:
