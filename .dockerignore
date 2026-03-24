@@ -1,0 +1,13 @@
+.git
+.gitignore
+.venv
+__pycache__/
+*.py[oc]
+.ruff_cache/
+.pre-commit-cache/
+build/
+dist/
+wheels/
+*.egg-info/
+*.env
+README.md
