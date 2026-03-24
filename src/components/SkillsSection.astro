@@ -1,0 +1,31 @@
+---
+import SectionHeading from "./SectionHeading.astro";
+import type { SkillGroup } from "../data/portfolio";
+
+interface Props {
+  section: {
+    eyebrow: string;
+    title: string;
+  };
+  groups: SkillGroup[];
+}
+
+const { section, groups } = Astro.props;
+---
+
+<section class="section reveal" id="skills">
+  <SectionHeading eyebrow={section.eyebrow} title={section.title} />
+
+  <div class="skills-board">
+    {
+      groups.map((group) => (
+        <article class="glass skill-column">
+          <h3>{group.title}</h3>
+          <div class="skill-bubbles">
+            {group.items.map((skill) => <span class="skill-bubble">{skill}</span>)}
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>

@@ -1,0 +1,49 @@
+---
+import ContactCta from "../components/ContactCta.astro";
+import HeroSection from "../components/HeroSection.astro";
+import MainLayout from "../layouts/MainLayout.astro";
+import OverviewTabs from "../components/OverviewTabs.astro";
+import PersonalProjectSpotlight from "../components/PersonalProjectSpotlight.astro";
+import SelectedWorkSection from "../components/SelectedWorkSection.astro";
+import {
+  homeContent,
+  personalProjects,
+  siteMeta,
+  skillGroups,
+  workProjects,
+} from "../data/portfolio";
+
+const withBase = (path = "") =>
+  `${import.meta.env.BASE_URL}${path.replace(/^\/+/, "")}`;
+
+const resumeHref = withBase(siteMeta.resumePath);
+const projectsHref = withBase("/projects/");
+const featuredPersonalProject = personalProjects[0];
+---
+
+<MainLayout
+  title={`${siteMeta.name} | ${siteMeta.role}`}
+  description={`Portfolio of ${siteMeta.name}, a Senior Data Scientist building production NLP, retrieval, and applied AI systems.`}
+  page="home"
+>
+  <HeroSection hero={homeContent.hero} resumeHref={resumeHref} projectsHref={projectsHref} />
+  <OverviewTabs
+    profile={homeContent.profile}
+    experienceSection={homeContent.experienceSection}
+    experience={homeContent.experience}
+    credentials={homeContent.credentials}
+    skillsSection={homeContent.skillsSection}
+    skills={skillGroups}
+  />
+  <SelectedWorkSection
+    section={homeContent.selectedWorkSection}
+    projects={workProjects}
+    projectsHref={projectsHref}
+  />
+  <PersonalProjectSpotlight
+    section={homeContent.personalProjectsSection}
+    project={featuredPersonalProject}
+    projectsHref={projectsHref}
+  />
+  <ContactCta section={homeContent.contactSection} />
+</MainLayout>

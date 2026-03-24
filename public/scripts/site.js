@@ -36,10 +36,11 @@ document.querySelectorAll("main section[id]").forEach((section) => {
 
 const animateMetric = (element) => {
   const rawValue = element.dataset.count || "";
+  const displayValue = element.dataset.countDisplay || element.textContent || rawValue;
   const target = Number.parseInt(rawValue, 10);
   if (Number.isNaN(target)) return;
 
-  const suffix = element.textContent.replace(/[0-9]/g, "");
+  const suffix = displayValue.replace(/[0-9]/g, "");
   const duration = 1100;
   const start = performance.now();
 
@@ -51,7 +52,7 @@ const animateMetric = (element) => {
       requestAnimationFrame(step);
       return;
     }
-    element.textContent = `${rawValue}${suffix}`;
+    element.textContent = displayValue;
   };
 
   requestAnimationFrame(step);
@@ -70,6 +71,31 @@ const metricObserver = new IntersectionObserver(
 
 metrics.forEach((metric) => metricObserver.observe(metric));
 
+const overviewTabs = Array.from(document.querySelectorAll("[data-overview-target]"));
+const overviewPanels = Array.from(document.querySelectorAll("[data-overview-panel]"));
+
+if (overviewTabs.length && overviewPanels.length) {
+  const setOverviewPanel = (target) => {
+    overviewTabs.forEach((tab) => {
+      const isActive = tab.dataset.overviewTarget === target;
+      tab.classList.toggle("is-active", isActive);
+      tab.setAttribute("aria-selected", String(isActive));
+    });
+
+    overviewPanels.forEach((panel) => {
+      const isActive = panel.dataset.overviewPanel === target;
+      panel.classList.toggle("is-active", isActive);
+      panel.setAttribute("aria-hidden", String(!isActive));
+    });
+  };
+
+  overviewTabs.forEach((tab) => {
+    tab.addEventListener("click", () => setOverviewPanel(tab.dataset.overviewTarget));
+  });
+
+  setOverviewPanel(overviewTabs[0].dataset.overviewTarget);
+}
+
 const projectTabs = Array.from(document.querySelectorAll("[data-project-target]"));
 const projectPanels = Array.from(document.querySelectorAll("[data-project-panel]"));
 const prevProjectButton = document.querySelector("[data-project-prev]");
@@ -84,11 +110,16 @@ const projectTabsets = Array.from(
 if (projectTabs.length && projectPanels.length) {
   let activeGroup = "work";
   const getTabsForGroup = (group) =>
-    projectTabs.filter((tab) => tab.closest("[data-project-tabset]")?.dataset.projectTabset === group);
+    projectTabs.filter(
+      (tab) => tab.closest("[data-project-tabset]")?.dataset.projectTabset === group
+    );
+
+  const getPanelById = (id) =>
+    projectPanels.find((panel) => panel.dataset.projectPanel === id);
 
   let activeIndex = 0;
 
-  const setProject = (index) => {
+  const setProject = (index, updateHash = true) => {
     const scopedTabs = getTabsForGroup(activeGroup);
     if (!scopedTabs.length) return;
 
@@ -96,20 +127,27 @@ if (projectTabs.length && projectPanels.length) {
     const target = scopedTabs[activeIndex].dataset.projectTarget;
 
     projectTabs.forEach((tab) => {
-      const isActive = tab.dataset.projectTarget === target;
+      const tabGroup = tab.closest("[data-project-tabset]")?.dataset.projectTabset;
+      const isActive =
+        tab.dataset.projectTarget === target && tabGroup === activeGroup;
       tab.classList.toggle("is-active", isActive);
       tab.setAttribute("aria-selected", String(isActive));
     });
 
     projectPanels.forEach((panel) => {
-      panel.classList.toggle(
-        "is-active",
-        panel.dataset.projectPanel === target
-      );
+      const isActive =
+        panel.dataset.projectPanel === target &&
+        panel.dataset.projectPanelGroup === activeGroup;
+      panel.classList.toggle("is-active", isActive);
+      panel.setAttribute("aria-hidden", String(!isActive));
     });
+
+    if (updateHash) {
+      history.replaceState(null, "", `#${target}`);
+    }
   };
 
-  const setGroup = (group) => {
+  const setGroup = (group, updateHash = true, targetId = null) => {
     activeGroup = group;
     projectGroupTabs.forEach((tab) => {
       const isActive = tab.dataset.projectGroup === group;
@@ -121,11 +159,27 @@ if (projectTabs.length && projectPanels.length) {
       tabset.classList.toggle("is-active", tabset.dataset.projectTabset === group);
     });
 
+    const scopedTabs = getTabsForGroup(group);
+    const targetIndex = targetId
+      ? scopedTabs.findIndex((tab) => tab.dataset.projectTarget === targetId)
+      : 0;
+
     activeIndex = 0;
-    setProject(0);
+    setProject(targetIndex >= 0 ? targetIndex : 0, updateHash);
   };
 
-  projectTabs.forEach((tab, index) => {
+  const setProjectById = (id, updateHash = false) => {
+    const panel = getPanelById(id);
+    if (!panel) {
+      setGroup(activeGroup, updateHash);
+      return;
+    }
+
+    const group = panel.dataset.projectPanelGroup || "work";
+    setGroup(group, updateHash, id);
+  };
+
+  projectTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       const scopedTabs = getTabsForGroup(activeGroup);
       const scopedIndex = scopedTabs.findIndex(
@@ -143,5 +197,11 @@ if (projectTabs.length && projectPanels.length) {
 
   prevProjectButton?.addEventListener("click", () => setProject(activeIndex - 1));
   nextProjectButton?.addEventListener("click", () => setProject(activeIndex + 1));
-  setGroup(activeGroup);
+
+  const initialProjectId = window.location.hash.replace(/^#/, "");
+  if (initialProjectId) {
+    setProjectById(initialProjectId, false);
+  } else {
+    setGroup(activeGroup, false);
+  }
 }

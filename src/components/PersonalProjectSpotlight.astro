@@ -1,0 +1,85 @@
+---
+import SectionHeading from "./SectionHeading.astro";
+import type { PortfolioProject } from "../data/portfolio";
+
+interface Props {
+  section: {
+    eyebrow: string;
+    title: string;
+  };
+  project: PortfolioProject;
+  projectsHref: string;
+}
+
+const { section, project, projectsHref } = Astro.props;
+const stackSection = project.detailSections.find((item) => item.kind === "stack");
+const links = stackSection?.links ?? [];
+const embed = project.embed;
+---
+
+<section class="section reveal" id="personal-projects">
+  <SectionHeading eyebrow={section.eyebrow} title={section.title} />
+
+  <div class="project-grid project-grid-personal">
+    <article class="project-card glass project-card-personal">
+      <div class="project-card-head">
+        <div>
+          <p class="project-tag">{project.tabTag}</p>
+          <h3>{project.title}</h3>
+        </div>
+        <div class="project-card-badges">
+          <span>{project.timeline}</span>
+          <span>{project.domain}</span>
+        </div>
+      </div>
+
+      <p>{project.preview.description}</p>
+
+      {project.preview.bullets && (
+        <ul class="feature-list">
+          {project.preview.bullets.map((bullet) => <li>{bullet}</li>)}
+        </ul>
+      )}
+
+      <div class="project-card-stack">
+        {(stackSection?.stack ?? []).map((item) => <span>{item}</span>)}
+      </div>
+
+      <div class="hero-actions">
+        {links.map((link) => (
+          <a class="button button-secondary" href={link.href} target="_blank" rel="noreferrer">
+            {link.label}
+          </a>
+        ))}
+        <a class="button button-secondary" href={`${projectsHref}#${project.id}`}>View Details</a>
+      </div>
+    </article>
+
+    {
+      embed && (
+        <article class="glass live-demo-panel">
+          <div class="live-demo-head">
+            <div>
+              <p class="card-label">{embed.title}</p>
+              <h3>Embedded app preview</h3>
+            </div>
+            <a class="button button-secondary" href={embed.url} target="_blank" rel="noreferrer">
+              Open Live App
+            </a>
+          </div>
+
+          <div class="live-demo-frame">
+            <iframe
+              src={embed.url}
+              title={`${project.title} live demo`}
+              loading="lazy"
+              referrerpolicy="no-referrer"
+            ></iframe>
+          </div>
+
+          <p class="embed-note">{embed.note}</p>
+        </article>
+      )
+    }
+  </div>
+</section>

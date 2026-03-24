@@ -1,0 +1,41 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import ProjectBrowser from "../components/ProjectBrowser.astro";
+import { archiveContent, personalProjects, siteMeta, workProjects } from "../data/portfolio";
+
+const withBase = (path = "") =>
+  `${import.meta.env.BASE_URL}${path.replace(/^\/+/, "")}`;
+
+const resumeHref = withBase(siteMeta.resumePath);
+---
+
+<MainLayout
+  title={`Project Archive | ${siteMeta.name}`}
+  description={`Project archive for ${siteMeta.name} covering production LLM, RAG, NLP, and recommendation systems.`}
+  page="projects"
+>
+  <section class="archive-hero reveal" id="archive-overview">
+    <p class="eyebrow">{archiveContent.hero.eyebrow}</p>
+    <h1>{archiveContent.hero.title}</h1>
+    <p class="hero-text">{archiveContent.hero.text}</p>
+
+    <div class="archive-summary-grid">
+      {
+        archiveContent.hero.cards.map((card) => (
+          <article class="glass archive-summary-card">
+            <p class="card-label">{card.label}</p>
+            <h3>{card.value}</h3>
+            <p>{card.text}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <ProjectBrowser
+    browser={archiveContent.browser}
+    workProjects={workProjects}
+    personalProjects={personalProjects}
+    resumeHref={resumeHref}
+  />
+</MainLayout>

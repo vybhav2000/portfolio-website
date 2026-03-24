@@ -1,0 +1,66 @@
+---
+import { siteMeta } from "../data/portfolio";
+
+interface Props {
+  page: "home" | "projects";
+}
+
+const { page } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const withBase = (path = "") => `${base}${path.replace(/^\/+/, "")}`;
+const isHome = page === "home";
+const homeHref = withBase("/");
+const projectsHref = withBase("/projects/");
+const resumeHref = withBase(siteMeta.resumePath);
+---
+
+<header class="topbar">
+  <a class="brand" href={homeHref}>
+    <span class="brand-mark">VN</span>
+    <span>{siteMeta.name}</span>
+  </a>
+
+  {
+    isHome ? (
+      <nav class="nav">
+        <a href="#overview">Overview</a>
+        <a href="#projects">Projects</a>
+        <a href="#personal-projects">Personal</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    ) : (
+      <nav class="nav">
+        <a href={homeHref}>Home</a>
+        <a href="#archive-overview">Overview</a>
+        <a href="#deep-dive">Deep Dive</a>
+        <a href={`mailto:${siteMeta.email}`}>Contact</a>
+      </nav>
+    )
+  }
+
+  <div class="topbar-actions">
+    <a class="topbar-link" href={resumeHref} download>Resume</a>
+    <a class="topbar-link" href={siteMeta.github} target="_blank" rel="noreferrer">GitHub</a>
+    {
+      isHome && (
+        <>
+          <a class="topbar-link" href={`mailto:${siteMeta.email}`}>Email</a>
+          <a
+            class="topbar-link"
+            href={siteMeta.linkedin}
+            target="_blank"
+            rel="noreferrer"
+          >
+            LinkedIn
+          </a>
+          <a class="button button-ghost" href={projectsHref}>Project Archive</a>
+        </>
+      )
+    }
+    {
+      !isHome && (
+        <a class="topbar-link" href={siteMeta.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+      )
+    }
+  </div>
+</header>

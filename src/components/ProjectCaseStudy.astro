@@ -1,0 +1,116 @@
+---
+import type { PortfolioProject } from "../data/portfolio";
+
+interface Props {
+  project: PortfolioProject;
+  active?: boolean;
+  resumeHref: string;
+}
+
+const { project, active = false, resumeHref } = Astro.props;
+const embed = project.embed;
+---
+
+<article
+  class={`deep-case glass ${active ? "is-active" : ""}`}
+  data-project-panel={project.id}
+  data-project-panel-group={project.group}
+>
+  <div class="deep-case-head">
+    <div>
+      <p class="project-tag">{project.panelTag}</p>
+      <h2>{project.title}</h2>
+    </div>
+
+    <div class="deep-case-meta">
+      <span>{project.timeline}</span>
+      <span>{project.domain}</span>
+    </div>
+  </div>
+
+  <div class="deep-case-summary">
+    <p>{project.summary}</p>
+  </div>
+
+  <div class="deep-case-grid">
+    {
+      project.overviewCards.map((card) => (
+        <section class="glass case-card">
+          <p class="card-label">{card.label}</p>
+          <h3>{card.title}</h3>
+          <p>{card.text}</p>
+        </section>
+      ))
+    }
+  </div>
+
+  <div class="detail-grid">
+    {
+      project.detailSections.map((section) => (
+        <section class="glass detail-card">
+          <p class="card-label">{section.label}</p>
+          <h3>{section.title}</h3>
+
+          {section.kind === "stack" ? (
+            <>
+              <div class="stack-row">
+                {(section.stack ?? []).map((item) => <span>{item}</span>)}
+              </div>
+
+              {(section.links || project.group === "personal") && (
+                <div class="detail-card-actions">
+                  {(section.links ?? []).map((link) => (
+                    <a
+                      class="button button-secondary"
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                  {project.group === "personal" && (
+                    <a class="button button-secondary" href={resumeHref} download>
+                      Download Resume
+                    </a>
+                  )}
+                </div>
+              )}
+            </>
+          ) : (
+            <ul class="feature-list">
+              {(section.items ?? []).map((item) => <li>{item}</li>)}
+            </ul>
+          )}
+        </section>
+      ))
+    }
+  </div>
+
+  {
+    embed && (
+      <section class="glass live-demo-panel live-demo-panel-archive">
+        <div class="live-demo-head">
+          <div>
+            <p class="card-label">{embed.title}</p>
+            <h3>Try the deployed application</h3>
+          </div>
+          <a class="button button-secondary" href={embed.url} target="_blank" rel="noreferrer">
+            Open Live App
+          </a>
+        </div>
+
+        <div class="live-demo-frame">
+          <iframe
+            src={embed.url}
+            title={`${project.title} deployed app`}
+            loading="lazy"
+            referrerpolicy="no-referrer"
+          ></iframe>
+        </div>
+
+        <p class="embed-note">{embed.note}</p>
+      </section>
+    )
+  }
+</article>

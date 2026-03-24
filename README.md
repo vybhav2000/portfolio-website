@@ -1,18 +1,19 @@
 # Portfolio Website
 
-Static portfolio website for Vybhav Nath C A.
+Astro portfolio website for Vybhav Nath C A.
 
 ## Run locally
 
 ```bash
-.venv\Scripts\python.exe main.py
+npm install
+npm run dev
 ```
 
-Then open `http://127.0.0.1:8000`.
+Then open `http://127.0.0.1:4321`.
 
 ## Docker
 
-A single static Docker environment:
+Build and serve the Astro output with Docker:
 
 ```bash
 docker compose up --build
@@ -33,25 +34,12 @@ To enable it in GitHub:
 3. Set `Source` to `GitHub Actions`.
 4. Push to `master`.
 
-## Pre-commit hook
-
-Install the dev tools and register the hook:
-
-```bash
-uv sync --group dev
-uv run pre-commit install
-```
-
-Run it manually if needed:
-
-```bash
-uv run pre-commit run --all-files
-```
-
 ## Files
 
-- `index.html` landing page
-- `projects.html` detailed project archive
-- `assets/styles.css` styling
-- `assets/script.js` small UI interactions
-- `main.py` local static server
+- `src/data/portfolio.ts` central content and project data
+- `src/pages/index.astro` landing page composition
+- `src/pages/projects.astro` project archive composition
+- `src/components/` reusable Astro sections and case-study components
+- `src/styles/global.css` site styling
+- `public/assets/Vybhav_Resume.pdf` downloadable resume
+- `public/scripts/site.js` small UI interactions

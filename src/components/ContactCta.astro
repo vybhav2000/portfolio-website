@@ -1,0 +1,29 @@
+---
+import { siteMeta } from "../data/portfolio";
+import SectionHeading from "./SectionHeading.astro";
+
+interface Props {
+  section: {
+    eyebrow: string;
+    title: string;
+    text: string;
+  };
+}
+
+const { section } = Astro.props;
+---
+
+<section class="section reveal contact-section" id="contact">
+  <div class="glass contact-card">
+    <SectionHeading eyebrow={section.eyebrow} title={section.title} intro={section.text} />
+    <div class="hero-actions contact-actions">
+      <a class="button" href={`mailto:${siteMeta.email}`}>Email Me</a>
+      <a class="button button-secondary" href={siteMeta.linkedin} target="_blank" rel="noreferrer">
+        LinkedIn
+      </a>
+      <a class="button button-secondary" href={siteMeta.github} target="_blank" rel="noreferrer">
+        GitHub
+      </a>
+    </div>
+  </div>
+</section>

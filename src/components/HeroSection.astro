@@ -1,0 +1,51 @@
+---
+import type { HeroMetric } from "../data/portfolio";
+
+interface Props {
+  hero: {
+    eyebrow: string;
+    title: string;
+    text: string;
+    focusLabel: string;
+    focusTitle: string;
+    focusText: string;
+    metrics: HeroMetric[];
+  };
+  resumeHref: string;
+  projectsHref: string;
+}
+
+const { hero, resumeHref, projectsHref } = Astro.props;
+---
+
+<section class="hero reveal">
+  <div class="hero-copy">
+    <p class="eyebrow">{hero.eyebrow}</p>
+    <h1>{hero.title}</h1>
+    <p class="hero-text">{hero.text}</p>
+    <div class="hero-actions">
+      <a class="button" href="#projects">View Projects</a>
+      <a class="button button-secondary" href={projectsHref}>Deep Dive Case Studies</a>
+      <a class="button button-secondary" href={resumeHref} download>Download Resume</a>
+    </div>
+  </div>
+
+  <aside class="hero-panel">
+    <div class="hero-card glass">
+      <p class="card-label">{hero.focusLabel}</p>
+      <h2>{hero.focusTitle}</h2>
+      <p>{hero.focusText}</p>
+    </div>
+
+    <div class="metrics-grid">
+      {
+        hero.metrics.map((metric) => (
+          <article class="metric glass">
+            <strong data-count={metric.count} data-count-display={metric.value}>{metric.value}</strong>
+            <span>{metric.label}</span>
+          </article>
+        ))
+      }
+    </div>
+  </aside>
+</section>

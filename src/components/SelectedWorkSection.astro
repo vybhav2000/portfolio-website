@@ -1,0 +1,46 @@
+---
+import SectionHeading from "./SectionHeading.astro";
+import type { PortfolioProject } from "../data/portfolio";
+
+interface Props {
+  section: {
+    eyebrow: string;
+    title: string;
+  };
+  projects: PortfolioProject[];
+  projectsHref: string;
+}
+
+const { section, projects, projectsHref } = Astro.props;
+---
+
+<section class="section reveal" id="projects">
+  <SectionHeading eyebrow={section.eyebrow} title={section.title} />
+
+  <div class="project-grid">
+    {
+      projects.map((project) => (
+        <article class={`project-card glass ${project.preview.featured ? "featured-project" : ""}`}>
+          <p class="project-tag">{project.tabTag}</p>
+          <h3>{project.title}</h3>
+          <p>{project.preview.description}</p>
+
+          {project.preview.bullets && (
+            <ul class="feature-list">
+              {project.preview.bullets.map((bullet) => <li>{bullet}</li>)}
+            </ul>
+          )}
+
+          <div class="project-card-footer">
+            <span>{project.timeline}</span>
+            <span>{project.domain}</span>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+
+  <div class="section-actions">
+    <a class="button" href={projectsHref}>Open Project Archive</a>
+  </div>
+</section>

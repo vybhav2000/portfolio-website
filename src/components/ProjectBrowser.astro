@@ -1,0 +1,114 @@
+---
+import type { PortfolioProject } from "../data/portfolio";
+import ProjectCaseStudy from "./ProjectCaseStudy.astro";
+import SectionHeading from "./SectionHeading.astro";
+
+interface Props {
+  browser: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    noteTitle: string;
+    noteItems: string[];
+  };
+  workProjects: PortfolioProject[];
+  personalProjects: PortfolioProject[];
+  resumeHref: string;
+}
+
+const { browser, workProjects, personalProjects, resumeHref } = Astro.props;
+---
+
+<section class="section reveal" id="deep-dive">
+  <SectionHeading eyebrow={browser.eyebrow} title={browser.title} intro={browser.intro} />
+
+  <div class="project-browser-shell">
+    <aside class="project-browser-sidebar glass">
+      <div class="project-browser-top">
+        <div>
+          <p class="card-label">Featured Case Studies</p>
+          <h3>Use the rail or arrows to switch projects</h3>
+        </div>
+        <div class="carousel-controls">
+          <button class="carousel-button" data-project-prev type="button" aria-label="Previous project">
+            Prev
+          </button>
+          <button class="carousel-button" data-project-next type="button" aria-label="Next project">
+            Next
+          </button>
+        </div>
+      </div>
+
+      <div class="project-groups" role="tablist" aria-label="Project group selector">
+        <button
+          class="project-group-tab is-active"
+          type="button"
+          role="tab"
+          aria-selected="true"
+          data-project-group="work"
+        >
+          Work Projects
+        </button>
+        <button
+          class="project-group-tab"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          data-project-group="personal"
+        >
+          Personal Projects
+        </button>
+      </div>
+
+      <div class="project-browser-note">
+        <p class="card-label">{browser.noteTitle}</p>
+        <ul class="feature-list feature-list-compact">
+          {browser.noteItems.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+
+      <div class="project-tab-rail">
+        <div class="project-tabs is-active" role="tablist" aria-label="Work project selector" data-project-tabset="work">
+          {
+            workProjects.map((project, index) => (
+              <button
+                class={`project-tab ${index === 0 ? "is-active" : ""}`}
+                type="button"
+                role="tab"
+                aria-selected={index === 0 ? "true" : "false"}
+                data-project-target={project.id}
+              >
+                <span class="project-tab-tag">{project.tabTag}</span>
+                <strong>{project.title}</strong>
+                <small>{project.tabSubtitle}</small>
+              </button>
+            ))
+          }
+        </div>
+
+        <div class="project-tabs" role="tablist" aria-label="Personal project selector" data-project-tabset="personal">
+          {
+            personalProjects.map((project, index) => (
+              <button
+                class={`project-tab ${index === 0 ? "is-active" : ""}`}
+                type="button"
+                role="tab"
+                aria-selected={index === 0 ? "true" : "false"}
+                data-project-target={project.id}
+              >
+                <span class="project-tab-tag">{project.tabTag}</span>
+                <strong>{project.title}</strong>
+                <small>{project.tabSubtitle}</small>
+              </button>
+            ))
+          }
+        </div>
+      </div>
+    </aside>
+
+    <div class="project-stage">
+      {workProjects.map((project, index) => <ProjectCaseStudy project={project} active={index === 0} resumeHref={resumeHref} />)}
+      {personalProjects.map((project) => <ProjectCaseStudy project={project} active={false} resumeHref={resumeHref} />)}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,132 @@
+---
+import type { CredentialRow, ExperienceOutcome, SkillGroup } from "../data/portfolio";
+import SectionHeading from "./SectionHeading.astro";
+
+interface Props {
+  profile: {
+    eyebrow: string;
+    title: string;
+    paragraphs: string[];
+    highlights: string[];
+  };
+  experienceSection: {
+    eyebrow: string;
+    title: string;
+  };
+  experience: {
+    role: string;
+    company: string;
+    period: string;
+    tags: string[];
+    summary: string;
+    outcomes: ExperienceOutcome[];
+  };
+  credentials: CredentialRow[];
+  skillsSection: {
+    eyebrow: string;
+    title: string;
+  };
+  skills: SkillGroup[];
+}
+
+const { profile, experienceSection, experience, credentials, skillsSection, skills } = Astro.props;
+---
+
+<section class="section reveal" id="overview">
+  <SectionHeading eyebrow="Overview" title="Snapshot of experience and technical depth" />
+
+  <div class="overview-shell glass">
+    <div class="overview-tabs" role="tablist" aria-label="Homepage overview sections">
+      <button class="overview-tab is-active" type="button" role="tab" aria-selected="true" data-overview-target="profile-panel">
+        Profile
+      </button>
+      <button class="overview-tab" type="button" role="tab" aria-selected="false" data-overview-target="experience-panel">
+        Experience
+      </button>
+      <button class="overview-tab" type="button" role="tab" aria-selected="false" data-overview-target="skills-panel">
+        Skills
+      </button>
+    </div>
+
+    <div class="overview-stage">
+      <div class="overview-panel is-active" data-overview-panel="profile-panel">
+        <SectionHeading eyebrow={profile.eyebrow} title={profile.title} />
+        <div class="two-column">
+          <div class="glass content-card">
+            {profile.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+          </div>
+          <div class="glass content-card">
+            <h3>Highlights</h3>
+            <ul class="feature-list">
+              {profile.highlights.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="overview-panel" data-overview-panel="experience-panel">
+        <SectionHeading eyebrow={experienceSection.eyebrow} title={experienceSection.title} />
+        <article class="experience-strip glass">
+          <div class="experience-rail">
+            <p class="card-label">Current Role</p>
+            <h3>{experience.role}</h3>
+            <p class="timeline-company">{experience.company}</p>
+            <p class="timeline-date">{experience.period}</p>
+            <div class="experience-tags">
+              {experience.tags.map((tag) => <span>{tag}</span>)}
+            </div>
+          </div>
+
+          <div class="experience-main">
+            <p class="experience-summary">{experience.summary}</p>
+            <div class="experience-outcomes">
+              {
+                experience.outcomes.map((outcome) => (
+                  <div class="experience-row">
+                    <span class="experience-label">{outcome.label}</span>
+                    <p>{outcome.text}</p>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </article>
+
+        <div class="glass credential-table">
+          <div class="credential-header">
+            <p class="card-label">Education and Awards</p>
+            <h3>Compact profile snapshot</h3>
+          </div>
+          {
+            credentials.map((credential) => (
+              <div class="credential-row">
+                <span class="credential-key">{credential.key}</span>
+                <div class="credential-value">
+                  <strong>{credential.title}</strong>
+                  <span>{credential.text}</span>
+                </div>
+                <span class="credential-meta">{credential.meta}</span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="overview-panel" data-overview-panel="skills-panel">
+        <SectionHeading eyebrow={skillsSection.eyebrow} title={skillsSection.title} />
+        <div class="skills-board">
+          {
+            skills.map((group) => (
+              <article class="glass skill-column">
+                <h3>{group.title}</h3>
+                <div class="skill-bubbles">
+                  {group.items.map((skill) => <span class="skill-bubble">{skill}</span>)}
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
